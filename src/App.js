@@ -1,55 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
+import React , { useState } from 'react';
 import './App.css';
+import TestGraph from './features/Test/TestComponent'
+var data = require('./Data/Data.json')
+var oneRecord = data.MasterRecord[0].records
 
 function App() {
+  const [oneSample,setSample] = useState(oneRecord)
+  const [count,setCount]= useState(0)
+
+  function callback(val){
+    
+    setSample(data.MasterRecord[count].records)
+    setCount(val.target.value)
+
+  }
   return (
-    <div className="App">
+    <div className="App" style={{backgroundColor:"white"}}>
+
+
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
+
+
+        <TestGraph count={count} id={"chart1"} oneRecord ={oneSample} dataPoint={"wynikDodatni"} label={"Wynik Dodatni"}  barColor={"rgba(155,0,0,0.5)"}></TestGraph>
+        <TestGraph count={count} id={"chart2"} oneRecord ={oneSample} dataPoint={"zgony"} label={"Zgony"} barColor={"rgba(0,0,0,0.5)"}></TestGraph>
+
+    <p> {data.MasterRecord[count].Data}
+    <input type="range" min="0" max={data.MasterRecord.length-1} onChange={(val)=>{callback(val)}}></input>
+    </p>
+        
+        
       </header>
     </div>
   );
